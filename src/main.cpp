@@ -145,7 +145,7 @@ int main() {
             trackpoints_y[m] = next_x_y[1];
           }
           // The polynomial is fitted to a straight line so a polynomial with
-          // order 1 is sufficient.
+          // order 2 is sufficient.
           Eigen::VectorXd coeffs = polyfit(trackpoints_x, trackpoints_y, 2);
           // The cross track error is calculated by evaluating at polynomial at x, f(x)
           // and subtracting y.
