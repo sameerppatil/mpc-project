@@ -37,5 +37,16 @@ This error represents between the difference orientation of reference trajectory
 
 ### Timestamp length and dt
 
-Since the problem we are solving here is optimization one, the number of inputs will have important impact on optimizatin solution. Also, dt, timestamp duration is related to
+Since the problem we are solving here is optimization one, the number of inputs will have important impact on optimization solution. Also, dt, timestamp duration is directly affects the number of actuations.
 
+I experimented with values of N as 10, 20, 30 and dt value of 0.05. I observed, longer the N value, longer is look forward. So for values higher than 25, I observed that cars veers a lot on straight road at short distances. The value of N has to be a function of top speed and radius of turns on track. A good test for this exercise would be simulating the run on F1 track having high speed turns.
+
+I finally settled for value of N as 20 and dt as 0.05 since these valued seemed like perfect for given track. But in real world, I believe these factors would have to be dynamically modified and can be preloaded from map since maps can store road turn curvature at each end.
+
+### Preprocessing Waypoints
+
+Since we are given map coordinates, we pre-process the waypoints to transform them into vehicle's coordinate system with vehicle at x,y = 0,0. Then I fitted the polynomial with 2nd order polynomial to predict the trajectory.
+
+### Latency
+
+Since the MPC computation are compute intensive and physical actuators would their own delay, we need to account for this latency in prediction. From classroom lessons, we assumed the latency to be of 100ms and adjusted the value of cross track error and orientation error based on latency in main.cpp between line number 158-160.
